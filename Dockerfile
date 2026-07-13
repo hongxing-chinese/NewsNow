@@ -1,11 +1,11 @@
-FROM node:20.12.2-alpine AS builder
+FROM node:22.13-alpine AS builder
 WORKDIR /usr/src
 COPY . .
-RUN corepack enable
-RUN pnpm install
+RUN npm install --global corepack@latest && corepack enable pnpm
+RUN pnpm install --frozen-lockfile
 RUN pnpm run build
 
-FROM node:20.12.2-alpine
+FROM node:22.13-alpine
 WORKDIR /usr/app
 RUN apk add --no-cache curl
 COPY --from=builder /usr/src/dist/output ./output

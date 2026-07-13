@@ -1,11 +1,17 @@
 export function Footer() {
   return (
     <>
-      <a href={`${Homepage}/blob/main/LICENSE`} target="_blank">MIT LICENSE</a>
+      <a href={Homepage} target="_blank">基于 NewsNow 构建</a>
       <span>
-        <span>NewsNow © 2024 By </span>
-        <a href={Author.url} target="_blank">
-          {Author.name}
+        <span>
+          Copyright ©
+          {new Date().getFullYear()}
+          {" "}
+          By
+          {" "}
+        </span>
+        <a href="https://www.1949101.xyz" target="_blank" rel="noreferrer noopener">
+          茶山山人
         </a>
       </span>
     </>

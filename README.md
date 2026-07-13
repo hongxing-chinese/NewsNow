@@ -1,20 +1,19 @@
 ![](/public/og-image.png)
 
-English | [简体中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
+简体中文 | [English](README.en-US.md) | [日本語](README.ja-JP.md)
+
+***优雅地阅读实时热门新闻***
 
 > [!NOTE]
-> This is a demo version currently supporting Chinese only. A full-featured version with better customization and English content support will be released later.
+> 当前版本为 DEMO，仅支持中文。正式版将提供更好的定制化功能和英文内容支持。
+>
 
-**_Elegant reading of real-time and hottest news_**
-
-## Features
-
-- Clean and elegant UI design for optimal reading experience
-- Real-time updates on trending news
-- GitHub OAuth login with data synchronization
-- 30-minute default cache duration (logged-in users can force refresh)
-- Adaptive scraping interval (minimum 2 minutes) based on source update frequency to optimize resource usage and prevent IP bans
-- support MCP server
+## 功能特性
+- 优雅的阅读界面设计，实时获取最新热点新闻
+- 支持 GitHub 登录及数据同步
+- 默认缓存时长为 30 分钟，登录用户可强制刷新获取最新数据
+- 根据内容源更新频率动态调整抓取间隔（最快每 2 分钟），避免频繁抓取导致 IP 被封禁
+- 支持 MCP server
 
 ```json
 {
@@ -32,106 +31,87 @@ English | [简体中文](README.zh-CN.md) | [日本語](README.ja-JP.md)
   }
 }
 ```
-You can change the `BASE_URL` to your own domain.
 
-## Deployment
+你可以将 `BASE_URL` 修改为你的域名。
 
-### Basic Deployment
+## 部署指南
 
-For deployments without login and caching:
+### 基础部署
+无需登录和缓存功能时，可直接部署至 Cloudflare Pages 或 Vercel：
+1. Fork 本仓库
+2. 导入至目标平台
 
-1. Fork this repository
-2. Import to platforms like Cloudflare Page or Vercel
+### Cloudflare Pages 配置
+- 构建命令：`pnpm run build`
+- 输出目录：`dist/output/public`
 
-### Cloudflare Page Configuration
+### GitHub OAuth 配置
+1. [创建 GitHub App](https://github.com/settings/applications/new)
+2. 无需特殊权限
+3. 回调 URL 设置为：`https://your-domain.com/api/oauth/github`（替换 your-domain 为实际域名）
+4. 获取 Client ID 和 Client Secret
 
-- Build command: `pnpm run build`
-- Output directory: `dist/output/public`
-
-### GitHub OAuth Setup
-
-1. [Create a GitHub App](https://github.com/settings/applications/new)
-2. No special permissions required
-3. Set callback URL to: `https://your-domain.com/api/oauth/github` (replace `your-domain` with your actual domain)
-4. Obtain Client ID and Client Secret
-
-### Environment Variables
-
-Refer to `example.env.server`. For local development, rename it to `.env.server` and configure:
+### 环境变量配置
+参考 `example.env.server` 文件，本地运行时重命名为 `.env.server` 并填写以下配置：
 
 ```env
-# Github Client ID
+# Github Clien ID
 G_CLIENT_ID=
-# Github Client Secret
+# Github Clien Secret
 G_CLIENT_SECRET=
-# JWT Secret, usually the same as Client Secret
+# JWT Secret, 通常就用 Clien Secret
 JWT_SECRET=
-# Initialize database, must be set to true on first run, can be turned off afterward
+# 初始化数据库, 首次运行必须设置为 true，之后可以将其关闭
 INIT_TABLE=true
-# Whether to enable cache
+# 是否启用缓存
 ENABLE_CACHE=true
 ```
 
-### Database Support
+### 数据库支持
+本项目主推 Cloudflare Pages 以及 Docker 部署， Vercel 需要你自行搞定数据库，其他支持的数据库可以查看 https://db0.unjs.io/connectors 。
 
-Supported database connectors: https://db0.unjs.io/connectors
-**Cloudflare D1 Database** is recommended.
+1. 在 Cloudflare Worker 控制面板创建 D1 数据库
+2. 在 `wrangler.toml` 中配置 `database_id` 和 `database_name`
+3. 若无 `wrangler.toml` ，可将 `example.wrangler.toml` 重命名并修改配置
+4. 重新部署生效
 
-1. Create D1 database in Cloudflare Worker dashboard
-2. Configure database_id and database_name in wrangler.toml
-3. If wrangler.toml doesn't exist, rename example.wrangler.toml and modify configurations
-4. Changes will take effect on next deployment
-
-### Docker Deployment
-
-In project root directory:
-
-```sh
+### Docker 部署
+对于 Docker 部署，只需要项目根目录 `docker-compose.yaml` 文件，同一目录下执行
+```
 docker compose up
 ```
+同样可以通过 `docker-compose.yaml` 配置环境变量。
 
-You can also set Environment Variables in `docker-compose.yml`.
-
-## Development
-
+## 开发
 > [!Note]
-> Requires Node.js >= 20
+> 需要 Node.js >= 22.13
 
-```sh
-corepack enable
+```bash
+npm install --global corepack@latest
+corepack enable pnpm
 pnpm i
 pnpm dev
 ```
 
-### Adding Data Sources
+你可能想要添加数据源，请关注 `shared/sources` `server/sources`，项目类型完备，结构简单，请自行探索。
 
-Refer to `shared/sources` and `server/sources` directories. The project provides complete type definitions and a clean architecture.
+## 路线图
+- 添加 **多语言支持**（英语、中文，更多语言即将推出）
+- 改进 **个性化选项**（基于分类的新闻、保存的偏好设置）
+- 扩展 **数据源** 以涵盖多种语言的全球新闻
 
-For detailed instructions on how to add new sources, see [CONTRIBUTING.md](CONTRIBUTING.md).
+## 贡献指南
+~~欢迎贡献代码！您可以提交 pull request 或创建 issue 来提出功能请求和报告 bug~~
 
-## Roadmap
-
-- Add **multi-language support** (English, Chinese, more to come).
-- Improve **personalization options** (category-based news, saved preferences).
-- Expand **data sources** to cover global news in multiple languages.
-
-**_release when ready_**
-![](https://testmnbbs.oss-cn-zhangjiakou.aliyuncs.com/pic/20250328172146_rec_.gif?x-oss-process=base_webp)
-
-## Contributing
-
-~~Contributions are welcome! Feel free to submit pull requests or create issues for feature requests and bug reports.~~
-
-The new version is coming soon and we will no longer accept contributions
-
-~~See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on how to contribute, especially for adding new data sources.~~
+新版即将到来，当前版本将不再接受贡献。
 
 ## License
 
 [MIT](./LICENSE) © ourongxing
 
-## Sponsorship
-
-If you rely on this service, sponsorship is welcome to help it run for the long term. If you need customization or other help, you can also use the contact method below and include a note.
+## 赞赏
+如果你依赖本服务，欢迎赞助以帮助它长期运行。如果需要定制或者其他帮助，也可以下列方式联系备注。
 
 ![](./screenshots/reward.gif)
+
+<a href="https://hellogithub.com/repository/c2978695e74a423189e9ca2543ab3b36" target="_blank"><img src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=c2978695e74a423189e9ca2543ab3b36&claim_uid=SMJiFwlsKCkWf89&theme=small" alt="Featured｜HelloGitHub" /></a>
