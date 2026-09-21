@@ -1,6 +1,6 @@
 ![](/public/og-image.png)
 
-[English](./README.md) | [简体中文](README.zh-CN.md) | 日本語
+[简体中文](README.md) | [English](README.en-US.md) | 日本語
 
 > [!NOTE]
 > NewsNext, the next gen of NewsNow, is coming soon, join the [waitlist](https://tally.so/r/yPBBYg).
