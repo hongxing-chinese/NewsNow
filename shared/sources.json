@@ -165,7 +165,7 @@
     "name": "AIHOT",
     "type": "realtime",
     "column": "tech",
-    "home": "https://aihot.virxact.com/all",
+    "home": "https://aihot.news/all",
     "color": "blue",
     "interval": 300000
   },

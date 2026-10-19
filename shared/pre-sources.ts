@@ -137,7 +137,7 @@ export const originSources = {
     column: "tech",
     color: "blue",
     interval: Time.Fast,
-    home: "https://aihot.virxact.com/all",
+    home: "https://aihot.news/all",
   },
   "tieba": {
     name: "百度贴吧",
